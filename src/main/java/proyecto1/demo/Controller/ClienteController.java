@@ -4,6 +4,7 @@ import ch.qos.logback.core.net.server.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import proyecto1.demo.model.Dto.ClienteDto;
 import proyecto1.demo.model.entity.Cliente;
 import proyecto1.demo.service.ICliente;
 
@@ -16,14 +17,25 @@ public class ClienteController {
 
     @PostMapping("/cliente")
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente create(@RequestBody Cliente cliente) {
-        return clienteService.save(cliente);
+    public ClienteDto create(@RequestBody ClienteDto clienteDto) {
+       Cliente clienteSave = clienteService.save(clienteDto);
+        return ClienteDto.builder().idCliente(clienteSave.getIdCliente())
+               .nombre(clienteSave.getNombre())
+               .apellido(clienteSave.getApellido())
+               .fechaRegistro(clienteSave.getFechaRegistro())
+               .build();
+
     }
 
     @PutMapping("/cliente")
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente update(@RequestBody Cliente cliente) {
-        return clienteService.save(cliente);
+    public ClienteDto update(@RequestBody ClienteDto clienteDto) {
+        Cliente clienteUpdate = clienteService.save(clienteDto);
+        return ClienteDto.builder().idCliente(clienteUpdate.getIdCliente())
+                .nombre(clienteUpdate.getNombre())
+                .apellido(clienteUpdate.getApellido())
+                .fechaRegistro(clienteUpdate.getFechaRegistro())
+                .build();
     }
 
     @DeleteMapping("/cliente/{id}")
@@ -35,7 +47,14 @@ public class ClienteController {
 
     @GetMapping("/cliente/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Cliente showById(@PathVariable Integer id) {
-        return clienteService.findById(id);
+    public ClienteDto showById(@PathVariable Integer id) {
+        Cliente cliente = clienteService.findById(id);
+        return ClienteDto.builder().idCliente(cliente.getIdCliente())
+                .nombre(cliente.getNombre())
+                .apellido(cliente.getApellido())
+                .fechaRegistro(cliente.getFechaRegistro())
+                .build();
+
+
     }
 }

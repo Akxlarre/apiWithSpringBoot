@@ -3,6 +3,7 @@ package proyecto1.demo.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import proyecto1.demo.model.Dto.ClienteDto;
 import proyecto1.demo.model.dao.ClienteDao;
 import proyecto1.demo.model.entity.Cliente;
 import proyecto1.demo.service.ICliente;
@@ -15,7 +16,12 @@ public class ClienteImpl implements ICliente {
 
     @Transactional
     @Override
-    public Cliente save(Cliente cliente) {
+    public Cliente save(ClienteDto clienteDto) {
+        Cliente cliente = Cliente.builder().idCliente(clienteDto.getIdCliente())
+                .nombre(clienteDto.getNombre())
+                .apellido(clienteDto.getApellido())
+                .fechaRegistro(clienteDto.getFechaRegistro())
+                .build();
         return clienteDao.save(cliente);
     }
 
